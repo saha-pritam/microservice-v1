@@ -5,6 +5,7 @@ public class ExchangeValue {
 	private String from;
 	private String to;
 	private double conversionMultiple;
+	private int currencyExchangeServicePort;
 
 	public ExchangeValue() {
 	}
@@ -47,6 +48,14 @@ public class ExchangeValue {
 
 	public void setConversionMultiple(double conversionMultiple) {
 		this.conversionMultiple = conversionMultiple;
+	}
+
+	public int getCurrencyExchangeServicePort() {
+		return currencyExchangeServicePort;
+	}
+
+	public void setCurrencyExchangeServicePort(int currencyExchangeServicePort) {
+		this.currencyExchangeServicePort = currencyExchangeServicePort;
 	}
 
 }

@@ -3,6 +3,8 @@ package com.pritam.microservices.v1.currencyexchangeservice.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +13,9 @@ import com.pritam.microservices.v1.currencyexchangeservice.model.ExchangeValue;
 
 @RestController
 public class CurrencyExchangeController {
+	
+	@Autowired
+	private Environment environment;
 	
 	private static List<ExchangeValue> list;
 	static {
@@ -22,6 +27,9 @@ public class CurrencyExchangeController {
 	
 	@GetMapping("/currency-exchange/from/{from}/to/{to}")
 	public ExchangeValue retrieveExchangeValue(@PathVariable String from, @PathVariable String to) {
-		return list.stream().filter(exchangeValue->exchangeValue.getFrom().equals(from)&&exchangeValue.getTo().equals(to)).findFirst().orElse(null);
+		ExchangeValue value = list.stream().filter(exchangeValue->exchangeValue.getFrom().equals(from)&&exchangeValue.getTo().equals(to)).findFirst().orElse(null);
+		if(value!=null)
+			value.setCurrencyExchangeServicePort(Integer.parseInt(environment.getProperty("local.server.port")));
+		return value;
 	}
 }
