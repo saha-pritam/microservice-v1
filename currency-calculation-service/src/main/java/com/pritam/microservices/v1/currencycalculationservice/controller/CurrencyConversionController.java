@@ -3,6 +3,9 @@ package com.pritam.microservices.v1.currencycalculationservice.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +21,13 @@ public class CurrencyConversionController {
 	
 	@Autowired
 	private CurrencyExchangeServiceProxy currencyExchangeServiceProxy;
+	
+	private Logger logger = Logger.getLogger(CurrencyConversionController.class);
 
 	@GetMapping("/currency-converter/from/{from}/to/{to}/quantity/{quantity}")
-	public CurrencyConversionBean retrieveCurrencyConversionBean(@PathVariable String from, @PathVariable String to,
+	public CurrencyConversionBean retrieveCurrencyConversionBean(HttpServletRequest request,@PathVariable String from, @PathVariable String to,
 			@PathVariable double quantity) {
+		logger.info("Request :- " + request + "\tURI :-" + request.getRequestURL());
 		CurrencyConversionBean currencyConversionBean = currencyExchangeServiceProxy.retrieveExchangeValue(from, to);
 		if (currencyConversionBean != null) {
 			currencyConversionBean.setQuantity(quantity);

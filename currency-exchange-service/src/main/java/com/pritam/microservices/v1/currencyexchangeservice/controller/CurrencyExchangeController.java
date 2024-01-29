@@ -1,5 +1,8 @@
 package com.pritam.microservices.v1.currencyexchangeservice.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +21,11 @@ public class CurrencyExchangeController {
 	@Autowired
 	private ExchangeValueRepository exchangeValueRepository;
 	
+	private Logger logger = Logger.getLogger(CurrencyExchangeController.class);
+	
 	@GetMapping("/currency-exchange/from/{from}/to/{to}")
-	public ExchangeValue retrieveExchangeValue(@PathVariable String from, @PathVariable String to) {
+	public ExchangeValue retrieveExchangeValue(HttpServletRequest request,@PathVariable String from, @PathVariable String to) {
+		logger.info("Request :- " + request + "\tURI :-" + request.getRequestURL());
 		ExchangeValue value = exchangeValueRepository.findByFromAndTo(from, to);
 		if(value!=null)
 			value.setCurrencyExchangeServicePort(Integer.parseInt(environment.getProperty("local.server.port")));

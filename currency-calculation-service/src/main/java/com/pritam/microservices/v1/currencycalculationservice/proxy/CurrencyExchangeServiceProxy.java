@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.pritam.microservices.v1.currencycalculationservice.model.CurrencyConversionBean;
 
-@FeignClient(name = "currency-exchange-service")
+@FeignClient(name = "api-gateway-server")
 @RibbonClient(name = "currency-exchange-service")
 public interface CurrencyExchangeServiceProxy {
-	@GetMapping("/currency-exchange/from/{from}/to/{to}")
+	@GetMapping("/currency-exchange-service/currency-exchange/from/{from}/to/{to}")
 	public CurrencyConversionBean retrieveExchangeValue(@PathVariable String from, @PathVariable String to);
 }
